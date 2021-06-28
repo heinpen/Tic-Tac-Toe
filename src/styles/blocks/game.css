@@ -1,0 +1,52 @@
+.game {
+  max-width: 120px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: relative;
+}
+
+.game__board {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.game__square {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  border: none;
+  box-shadow: 0 0 0 1px #ccc;
+}
+
+.game__arrows {
+  display: flex;
+  justify-content: space-around;
+  height: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.game__arrow {
+  width: 30px;
+}
+
+.game__result {
+  position: absolute;
+  left: 50%;
+  top: -30px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.game__restart-button {
+  display: block;
+  margin: auto;
+  padding: 10px;
+}

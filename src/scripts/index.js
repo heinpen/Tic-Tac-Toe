@@ -59,7 +59,7 @@ class Game extends React.Component {
       squares = current.slice(),
       xIsNext = this.state.xIsNext;
 
-    if (!squares[i] && !this.winner && !this.state.isTie) {
+    if (!squares[i] && !this.winner && !this.isTie) {
       squares[i] = xIsNext ? 'O' : 'X';
       this.setState({
         history: history.concat([
@@ -72,7 +72,7 @@ class Game extends React.Component {
       });
     }
     if (!squares.includes(null)) {
-      this.state.isTie = true;
+      this.isTie = true;
     }
   }
 
@@ -91,15 +91,18 @@ class Game extends React.Component {
     });
   }
 
-  handleNewGameClick() {
+  handleRestartClick() {
+    this.winner = false;
+    this.isTie = false;
     this.setState({
-      history: history.concat([
+      history: [
         {
-          squares: squares,
+          squares: Array(9).fill(null),
         },
-      ]),
-      xIsNext: !xIsNext,
-      move: this.state.move + 1,
+      ],
+      xIsNext: false,
+      move: 0,
+      winner: null,
     });
   }
 
@@ -115,11 +118,11 @@ class Game extends React.Component {
         status = 'The winner is: ' + this.winner;
         arrows = true;
         this.winner == 'O' ? (this.o += 1) : (this.x += 1);
-      } else if (this.state.isTie) {
+      } else if (this.isTie) {
         status = 'The game ended in a tie';
         arrows = true;
       } else {
-        status = (xIsNext ? 'O' : 'X') + ' - Turn';
+        status = (xIsNext ? 'O' : 'X') + ' Turn';
       }
     } else {
       status = 'The winner is: ' + this.winner;
@@ -136,7 +139,7 @@ class Game extends React.Component {
         {arrows && (
           <PostGameBtns
             onClickArrows={(dir) => this.handleArrowsClick(dir)}
-            onClickNewGame={(dir) => this.handleNewGameClick(dir)}
+            onClickRestartBtn={(dir) => this.handleRestartClick(dir)}
           />
         )}
       </div>
@@ -155,8 +158,8 @@ function PostGameBtns(props) {
           {'>'}
         </button>
       </div>
-      <button className="game__new-game-button" onClick={() => props.onClickArrows(true)}>
-        New game
+      <button className="game__restart-button" onClick={() => props.onClickRestartBtn(true)}>
+        Restart game
       </button>
     </>
   );
