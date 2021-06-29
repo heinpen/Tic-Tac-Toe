@@ -105,6 +105,11 @@ class Game extends React.Component {
       winner: null,
     });
   }
+  handleNewGameClick() {
+    this.handleRestartClick();
+    this.x = 0;
+    this.o = 0;
+  }
 
   render() {
     const history = this.state.history,
@@ -139,7 +144,8 @@ class Game extends React.Component {
         {arrows && (
           <PostGameBtns
             onClickArrows={(dir) => this.handleArrowsClick(dir)}
-            onClickRestartBtn={(dir) => this.handleRestartClick(dir)}
+            onClickRestartBtn={() => this.handleRestartClick()}
+            onClickNewGameBtn={() => this.handleNewGameClick()}
           />
         )}
       </div>
@@ -158,8 +164,11 @@ function PostGameBtns(props) {
           {'>'}
         </button>
       </div>
-      <button className="game__restart-button" onClick={() => props.onClickRestartBtn(true)}>
+      <button className="game__post-game-button" onClick={() => props.onClickRestartBtn()}>
         Restart game
+      </button>
+      <button className="game__post-game-button" onClick={() => props.onClickNewGameBtn()}>
+        New game
       </button>
     </>
   );

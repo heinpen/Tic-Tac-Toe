@@ -30,7 +30,6 @@
   justify-content: space-around;
   height: 30px;
   margin-top: 10px;
-  margin-bottom: 10px;
 }
 
 .game__arrow {
@@ -45,8 +44,8 @@
   white-space: nowrap;
 }
 
-.game__restart-button {
+.game__post-game-button {
   display: block;
-  margin: auto;
+  margin: 10px auto 0;
   padding: 10px;
 }
