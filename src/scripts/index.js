@@ -46,18 +46,20 @@ class Game extends React.Component {
         },
       ],
       xIsNext: false,
-      index: 0,
+      move: 0,
       winner: null,
     };
+    this.x = 0;
+    this.o = 0;
   }
 
   handleSquareClick(i) {
     const history = this.state.history,
-      current = history[this.state.index].squares,
+      current = history[this.state.move].squares,
       squares = current.slice(),
       xIsNext = this.state.xIsNext;
-    console.log(!this.state.winner);
-    if (!squares[i] && !this.state.winner) {
+
+    if (!squares[i] && !this.winner && !this.state.isTie) {
       squares[i] = xIsNext ? 'O' : 'X';
       this.setState({
         history: history.concat([
@@ -66,13 +68,16 @@ class Game extends React.Component {
           },
         ]),
         xIsNext: !xIsNext,
-        index: this.state.index + 1,
+        move: this.state.move + 1,
       });
+    }
+    if (!squares.includes(null)) {
+      this.state.isTie = true;
     }
   }
 
-  handleArrowClick(dir) {
-    let index = this.state.index + (dir ? 1 : -1);
+  handleArrowsClick(dir) {
+    let index = this.state.move + (dir ? 1 : -1);
 
     // set boundries according to history for index
     if (index > this.state.history.length - 1) {
@@ -82,45 +87,86 @@ class Game extends React.Component {
     }
 
     this.setState({
-      index: index,
+      move: index,
+    });
+  }
+
+  handleNewGameClick() {
+    this.setState({
+      history: history.concat([
+        {
+          squares: squares,
+        },
+      ]),
+      xIsNext: !xIsNext,
+      move: this.state.move + 1,
     });
   }
 
   render() {
     const history = this.state.history,
-      current = history[this.state.index].squares,
+      current = history[this.state.move].squares,
       xIsNext = this.state.xIsNext;
+
     let status, arrows;
-    if (!this.state.winner) this.state.winner = calculateWinner(current);
-    if (this.state.winner) {
-      status = 'The winner is: ' + this.state.winner;
-      arrows = true;
+    if (!this.winner) {
+      this.winner = calculateWinner(current);
+      if (this.winner) {
+        status = 'The winner is: ' + this.winner;
+        arrows = true;
+        this.winner == 'O' ? (this.o += 1) : (this.x += 1);
+      } else if (this.state.isTie) {
+        status = 'The game ended in a tie';
+        arrows = true;
+      } else {
+        status = (xIsNext ? 'O' : 'X') + ' - Turn';
+      }
     } else {
-      status = 'Next is: ' + (xIsNext ? 'O' : 'X');
+      status = 'The winner is: ' + this.winner;
+      arrows = true;
     }
 
     return (
       <div className="game">
+        <Result x={this.x} o={this.o} />
         <div className="game__status">{status}</div>
         <div className="game__board">
           <Board handleSquareClick={(i) => this.handleSquareClick(i)} squares={current} />
         </div>
-        {arrows && <Arrows onClick={(dir) => this.handleArrowClick(dir)} />}
+        {arrows && (
+          <PostGameBtns
+            onClickArrows={(dir) => this.handleArrowsClick(dir)}
+            onClickNewGame={(dir) => this.handleNewGameClick(dir)}
+          />
+        )}
       </div>
     );
   }
 }
 
-function Arrows(props) {
+function PostGameBtns(props) {
   return (
-    <div className="game__arrows">
-      <button className="game__arrow" onClick={() => props.onClick(true)}>
-        {'<'}
+    <>
+      <div className="game__arrows">
+        <button className="game__arrow" onClick={() => props.onClickArrows(false)}>
+          {'<'}
+        </button>
+        <button className="game__arrow" onClick={() => props.onClickArrows(true)}>
+          {'>'}
+        </button>
+      </div>
+      <button className="game__new-game-button" onClick={() => props.onClickArrows(true)}>
+        New game
       </button>
-      <button className="game__arrow" onClick={() => props.onClick(false)}>
-        {'>'}
-      </button>
-    </div>
+    </>
+  );
+}
+
+function Result(props) {
+  return (
+    <span className="game__result">
+      Result: {props.x} - {props.o}
+    </span>
   );
 }
 
