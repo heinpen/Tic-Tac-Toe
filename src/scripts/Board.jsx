@@ -3,8 +3,14 @@ import Square from './Square.jsx';
 
 class Board extends React.Component {
   renderSquare(i) {
-    const { squares, handleSquareClick } = this.props;
-    return <Square value={squares[i]} onClick={() => handleSquareClick(i)} />;
+    const { squares, handleSquareClick, squareDisabled } = this.props;
+    return (
+      <Square
+        value={squares[i]}
+        onClick={() => handleSquareClick(i)}
+        squareDisabled={squareDisabled}
+      />
+    );
   }
 
   render() {
