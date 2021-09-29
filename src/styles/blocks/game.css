@@ -1,10 +1,5 @@
 .game {
   max-width: 120px;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   position: relative;
 }
@@ -48,4 +43,8 @@
   display: block;
   margin: 10px auto 0;
   padding: 10px;
+}
+
+.game button {
+  cursor: pointer;
 }
