@@ -19,18 +19,13 @@
     "no-unused-expressions": ["error", { "allowTernary": true }],
     "no-undef": 0,
     "no-var": 0,
+    "no-console": "off",
     "wrap-iife": ["error", "any"],
     "strict": ["error", "global"],
     "eol-last": 0,
     "one-var": ["error", "never"],
     "arrow-parens": ["error", "always"],
     "linebreak-style": 0,
-    "import/extensions": "off",
-    "no-console": [
-      "error",
-      {
-        "allow": ["warn", "error"]
-      }
-    ]
+    "import/extensions": "off"
   }
 }
