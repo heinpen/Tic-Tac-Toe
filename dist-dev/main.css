@@ -61,4 +61,7 @@ body {
 .game button {
   cursor: pointer;
 }
+.game button.disabled {
+  cursor: not-allowed;
+}
 
