@@ -1,0 +1,64 @@
+/*!******************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/styles/index.css ***!
+  \******************************************************************************************************************/
+*,
+*::after,
+*::before {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+  font: 14px 'Century Gothic', Futura, sans-serif;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  padding-top: 20%;
+}
+.game {
+  max-width: 120px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  position: relative;
+}
+.game__board {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.game__square {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  border: none;
+  box-shadow: 0 0 0 1px #ccc;
+}
+.game__arrows {
+  display: flex;
+  justify-content: space-around;
+  height: 30px;
+  margin-top: 10px;
+}
+.game__arrow {
+  width: 30px;
+}
+.game__result {
+  position: absolute;
+  left: 50%;
+  top: -30px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.game__post-game-button {
+  display: block;
+  margin: 10px auto 0;
+  padding: 10px;
+}
+.game button {
+  cursor: pointer;
+}
+
