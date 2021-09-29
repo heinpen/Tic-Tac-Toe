@@ -1,8 +1,7 @@
 function Square(props) {
-  const { onClick } = props;
-  const { value } = props;
+  const { onClick, value, squareDisabled } = props;
   return (
-    <button type="button" className="game__square" onClick={onClick}>
+    <button type="button" className={`game__square ${squareDisabled}`} onClick={onClick}>
       {value}
     </button>
   );
