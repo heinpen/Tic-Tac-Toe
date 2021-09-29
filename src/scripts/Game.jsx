@@ -48,7 +48,16 @@ class Game extends React.Component {
     const { move, history } = this.state;
     let index = move + (dir ? 1 : -1);
 
-    // Set boundaries according to history for index.
+    // Configure arrow buttons.
+    this.rightArrowDisabled = false;
+    this.leftArrowDisabled = false;
+    if (index === history.length - 1) {
+      this.rightArrowDisabled = true;
+    } else if (index === 0) {
+      this.leftArrowDisabled = true;
+    }
+
+    // Set boundaries, according to history array, for index.
     if (index > history.length - 1) {
       index = history.length - 1;
     } else if (index < 0) {
@@ -61,8 +70,12 @@ class Game extends React.Component {
   }
 
   handleRestartClick() {
+    // Set initial values to variables.
     this.winner = false;
     this.isTie = false;
+    this.rightArrowDisabled = false;
+    this.leftArrowDisabled = false;
+    this.squareDisabled = '';
     this.setState({
       history: [
         {
@@ -88,12 +101,16 @@ class Game extends React.Component {
     if (!this.winner) {
       this.winner = calculateWinner(info.current);
       if (this.winner) {
+        this.rightArrowDisabled = true;
         info.status = `The winner is: ${this.winner}`;
         info.activeButtons = true;
         this.winner === 'O' ? (this.o += 1) : (this.x += 1);
+        this.squareDisabled = 'disabled';
       } else if (this.isTie) {
-        info.status = 'The game ended in a tie';
+        this.rightArrowDisabled = true;
+        info.status = 'The game ended in a draw';
         info.activeButtons = true;
+        this.squareDisabled = 'disabled';
       } else {
         info.status = `${xIsNext ? 'O' : 'X'}  Turn`;
       }
@@ -101,7 +118,6 @@ class Game extends React.Component {
       info.status = `The winner is: ${this.winner}`;
       info.activeButtons = true;
     }
-
     return info;
   }
 
@@ -112,11 +128,17 @@ class Game extends React.Component {
       <div className="game">
         <Result x={this.x} o={this.o} />
         <div className="game__status">{status}</div>
-        <div className="game__board">
-          <Board handleSquareClick={(i) => this.handleSquareClick(i)} squares={current} />
+        <div className={`game__board ${this.disabledBoard}`}>
+          <Board
+            handleSquareClick={(i) => this.handleSquareClick(i)}
+            squares={current}
+            squareDisabled={this.squareDisabled}
+          />
         </div>
         {activeButtons && (
           <PostGameButtons
+            leftArrowDisabled={this.leftArrowDisabled}
+            rightArrowDisabled={this.rightArrowDisabled}
             onClickArrows={(dir) => this.handleArrowsClick(dir)}
             onClickRestartBtn={() => this.handleRestartClick()}
             onClickNewGameBtn={() => this.handleNewGameClick()}
