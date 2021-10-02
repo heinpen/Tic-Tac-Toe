@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-// const autoprefixer = require('autoprefixer');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const stylesHandler = MiniCssExtractPlugin.loader;
@@ -26,7 +26,7 @@ const config = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-
+    new ESLintPlugin(),
     new HtmlWebpackPlugin({
       template: './src/html/index.html',
     }),
@@ -59,23 +59,20 @@ const config = {
       {
         test: /\.m?jsx?$/,
         exclude: /(node_modules|bower_components)/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                '@babel/preset-env',
-                [
-                  '@babel/preset-react',
-                  {
-                    runtime: 'automatic',
-                  },
-                ],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              '@babel/preset-env',
+              [
+                '@babel/preset-react',
+                {
+                  runtime: 'automatic',
+                },
               ],
-            },
+            ],
           },
-          'eslint-loader',
-        ],
+        },
       },
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
