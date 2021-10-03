@@ -26,7 +26,13 @@ const config = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new ESLintPlugin(),
+    new ESLintPlugin({
+      extensions: ['jsx', 'mjs', 'js'],
+      failOnError: true,
+      fix: false,
+      emitError: true,
+      emitWarning: true,
+    }),
     new HtmlWebpackPlugin({
       template: './src/html/index.html',
     }),
